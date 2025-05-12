@@ -2,7 +2,10 @@ package com.SistemaReservas.Reservas_micMoc.domain.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Reservation {
     private Client clientInReservation;
@@ -14,6 +17,7 @@ public class Reservation {
     public Reservation(Client clientInReservation, List<Table> tableInReservation, int numberOfPeople, LocalDate date, LocalDateTime time) {
         validateClient(clientInReservation);
         validateTables(tableInReservation);
+        this.tableInReservation = tableInReservation;
         validateNumberOfPeople(numberOfPeople);
         validateDate(date);
         validateTime(time);
@@ -35,11 +39,22 @@ public class Reservation {
         if (tables == null || tables.isEmpty()) {
             throw new IllegalArgumentException("Debe asignarse al menos una mesa a la reserva");
         }
+        Set<Table> uniqueTables = new HashSet<>(tables);
+        if (uniqueTables.size() != tables.size()) {
+            throw new IllegalArgumentException("No se pueden asignar mesas duplicadas");
+        }
+
     }
 
     private void validateNumberOfPeople(int numberOfPeople) {
         if (numberOfPeople <= 0) {
             throw new IllegalArgumentException("El número de personas debe ser mayor a 0");
+        }
+        int totalCapacity = tableInReservation.stream()
+                .mapToInt(Table::getCapacity)
+                .sum();
+        if(numberOfPeople > totalCapacity){
+            throw new IllegalArgumentException("La capacidad total de las mesas no es suficiente para el número de personas de la reserva");
         }
     }
 
@@ -55,6 +70,12 @@ public class Reservation {
     private void validateTime(LocalDateTime time) {
         if (time == null) {
             throw new IllegalArgumentException("La hora de la reserva no puede ser nula");
+        }
+        LocalTime reservationTime = time.toLocalTime();
+        LocalTime openingTime = LocalTime.of(19,0);
+        LocalTime closingTime = LocalTime.of(22, 30);
+        if (reservationTime.isBefore(openingTime) || reservationTime.isAfter(closingTime)){
+            throw new IllegalArgumentException("La hora de la reserva debe estar entre las 19 y las 22 30");
         }
     }
 

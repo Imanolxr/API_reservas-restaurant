@@ -11,6 +11,19 @@ public class Table {
     public Table() {
     }
 
+    public Table(String tableNumber, int capacity) {
+        if (tableNumber == null || tableNumber.isEmpty()) {
+            throw new IllegalArgumentException("El número de mesa no puede ser vacío");
+        }
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("La capacidad de la mesa debe ser mayor que cero");
+        }
+        this.capacity = capacity;
+        this.tableNumber = tableNumber;
+    }
+
+
+
     public Table(Long id, String tableNumber, int capacity, List<Reservation> reservations) {
 
         if (tableNumber == null || tableNumber.isEmpty()) {

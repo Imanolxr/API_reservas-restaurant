@@ -6,16 +6,15 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
+
 @Setter
-@NoArgsConstructor
+@Getter
 @AllArgsConstructor
 public class NewReservationDTO {
 
@@ -35,4 +34,5 @@ public class NewReservationDTO {
 
     @NotNull
     private LocalDateTime time;
+
 }

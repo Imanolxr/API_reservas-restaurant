@@ -6,7 +6,6 @@ import com.SistemaReservas.Reservas_micMoc.domain.model.Table;
 import com.SistemaReservas.Reservas_micMoc.domain.port.output.ClientRepositoryPort;
 import com.SistemaReservas.Reservas_micMoc.domain.port.output.TableRepositoryPort;
 import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.mapper.client.ClientMapper;
-import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.mapper.table.TableEntityMapper;
 import com.SistemaReservas.Reservas_micMoc.infraestructure.rest.dto.NewReservationDTO;
 import org.springframework.stereotype.Component;
 

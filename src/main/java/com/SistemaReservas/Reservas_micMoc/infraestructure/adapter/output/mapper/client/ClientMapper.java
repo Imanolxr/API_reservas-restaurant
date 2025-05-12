@@ -4,7 +4,9 @@ package com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.mappe
 import com.SistemaReservas.Reservas_micMoc.domain.model.Client;
 import com.SistemaReservas.Reservas_micMoc.infraestructure.rest.dto.ClientDTO;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
+@Component
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
     Client toModel(ClientDTO dto);
