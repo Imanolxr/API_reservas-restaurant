@@ -8,28 +8,40 @@ import java.util.List;
 import java.util.Set;
 
 public class Reservation {
+    private Long id;
     private Client clientInReservation;
     private List<Table> tableInReservation;
     private int numberOfPeople;
     private LocalDate date;
     private LocalDateTime time;
+    private LocalDateTime endTime;
 
-    public Reservation(Client clientInReservation, List<Table> tableInReservation, int numberOfPeople, LocalDate date, LocalDateTime time) {
-        validateClient(clientInReservation);
-        validateTables(tableInReservation);
-        this.tableInReservation = tableInReservation;
-        validateNumberOfPeople(numberOfPeople);
-        validateDate(date);
-        validateTime(time);
+    public Reservation() {
+    }
+
+    public Reservation(Client clientInReservation, List<Table> tableInReservation,
+                       int numberOfPeople, LocalDate date, LocalDateTime time,
+                       LocalDateTime endTime) {
+
 
         this.clientInReservation = clientInReservation;
         this.tableInReservation = tableInReservation;
         this.numberOfPeople = numberOfPeople;
         this.date = date;
         this.time = time;
+        this.endTime = endTime;
+
+    }
+    public void validate() {
+        validateClient(this.clientInReservation);
+        validateTables(this.tableInReservation);
+        validateNumberOfPeople(this.numberOfPeople);
+        validateDate(this.date);
+        validateTime(this.time);
     }
 
     private void validateClient(Client client) {
+
         if (client == null) {
             throw new IllegalArgumentException("La reserva debe tener un cliente asociado");
         }
@@ -79,12 +91,19 @@ public class Reservation {
         }
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Client getClientInReservation() {
         return clientInReservation;
     }
 
     public void setClientInReservation(Client clientInReservation) {
-        validateClient(clientInReservation);
         this.clientInReservation = clientInReservation;
     }
 
@@ -122,5 +141,13 @@ public class Reservation {
     public void setTime(LocalDateTime time) {
         validateTime(time);
         this.time = time;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

@@ -1,10 +1,12 @@
 package com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.repository.reservation;
 
+import com.SistemaReservas.Reservas_micMoc.domain.exception.NotfoundException;
 import com.SistemaReservas.Reservas_micMoc.domain.model.Reservation;
 import com.SistemaReservas.Reservas_micMoc.domain.port.output.ReservationRepositoryPort;
 import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.entity.ReservationEntity;
+import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.entity.TableEntity;
 import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.mapper.reservation.ReservationEntityMapper;
-import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.mapper.reservation.ReservationMapper;
+import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.mapper.reservation.NewReservationDTOMapper;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -17,7 +19,7 @@ public class ReservationRepositoryAdapter implements ReservationRepositoryPort {
     private final IReservationRepositoryAdapter reservationRepo;
     private final ReservationEntityMapper reservationEntityMapper;
 
-    public ReservationRepositoryAdapter(IReservationRepositoryAdapter reservationRepo, ReservationMapper reservationMapper, ReservationEntityMapper reservationEntityMapper) {
+    public ReservationRepositoryAdapter(IReservationRepositoryAdapter reservationRepo, NewReservationDTOMapper newReservationDTOMapper, ReservationEntityMapper reservationEntityMapper) {
         this.reservationRepo = reservationRepo;
         this.reservationEntityMapper = reservationEntityMapper;
     }
@@ -30,8 +32,18 @@ public class ReservationRepositoryAdapter implements ReservationRepositoryPort {
     }
 
     @Override
-    public boolean existsOverLappingReservation(List<Long> tableIds, LocalDate requestedDate, LocalDateTime requestedTime, LocalDateTime endTime) {
-        return reservationRepo.existsOverlappingReservation(tableIds, requestedDate, requestedTime, endTime);
+    public boolean existsOverLappingReservation(List<TableEntity> tables, LocalDate requestedDate, LocalDateTime requestedTime, LocalDateTime endTime) {
+        return reservationRepo.existsOverlappingReservation(tables, requestedDate, requestedTime, endTime);
+    }
+
+    @Override
+    public void deleteReservation(Long reservationId) {
+        reservationRepo.deleteById(reservationId);
+    }
+
+    @Override
+    public boolean existsById(Long reservationId) {
+        return reservationRepo.existsById(reservationId);
     }
 
 

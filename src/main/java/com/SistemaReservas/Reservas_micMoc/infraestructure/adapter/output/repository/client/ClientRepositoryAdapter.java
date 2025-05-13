@@ -26,11 +26,18 @@ public class ClientRepositoryAdapter implements ClientRepositoryPort {
     }
 
     @Override
-    public void saveClient(Client client) {
+    public Client saveClient(Client client) {
         ClientEntity entity;
         entity = clientEntityMapper.toEntity(client);
-        clientRepo.save(entity);
+        ClientEntity savedClient = clientRepo.save(entity);
 
+
+        return clientEntityMapper.toModel(savedClient);
+    }
+
+    @Override
+    public boolean existsById(Long clientId) {
+        return clientRepo.existsById(clientId);
     }
 
 }

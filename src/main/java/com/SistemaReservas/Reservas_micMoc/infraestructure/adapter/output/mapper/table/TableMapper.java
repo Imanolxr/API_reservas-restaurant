@@ -5,7 +5,7 @@ import com.SistemaReservas.Reservas_micMoc.infraestructure.rest.dto.TableDTO;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface tableMapper {
+public interface TableMapper {
 
     Table toModel(TableDTO dto);
     TableDTO toDto(Table model);

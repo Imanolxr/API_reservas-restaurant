@@ -2,6 +2,7 @@ package com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.entit
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +23,9 @@ public class ReservationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    @NotBlank(message = "id de cliente necesario")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
+    @NotNull(message = "id de cliente necesario")
     private ClientEntity client;
 
     @ManyToMany
@@ -36,10 +37,17 @@ public class ReservationEntity {
     )
     private List<TableEntity> tables;
 
+    @Column(nullable = false)
     private int numberOfPeople;
 
+    @Column(nullable = false)
     private LocalDate date;
+    @Column(nullable = false)
     private LocalDateTime time;
+
+    @Column(nullable = false)
+    private LocalDateTime endTime;
+
 
 
 

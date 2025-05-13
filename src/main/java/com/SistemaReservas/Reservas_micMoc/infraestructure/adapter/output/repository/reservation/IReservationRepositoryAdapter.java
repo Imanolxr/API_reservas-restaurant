@@ -1,6 +1,7 @@
 package com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.repository.reservation;
 
 import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.entity.ReservationEntity;
+import com.SistemaReservas.Reservas_micMoc.infraestructure.adapter.output.entity.TableEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,17 +14,24 @@ public interface IReservationRepositoryAdapter extends JpaRepository<Reservation
 
     @Query("""
     SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END
-    FROM Reservation r
-    JOIN r.tableInReservation t
-    WHERE t.id IN :tableIds
-      AND r.date = :requestedDate   -- Verificamos que la fecha coincida
-      AND r.time < :endTime
-      AND :startTime < r.time.plusMinutes(90)
+    FROM ReservationEntity r
+    JOIN r.tables t
+    WHERE t IN :tables
+    AND r.date = :date
+    AND (
+        (:start BETWEEN r.time AND r.endTime)
+        OR (:end BETWEEN r.time AND r.endTime)
+        OR (r.time BETWEEN :start AND :end)
+    )
 """)
-    boolean existsOverlappingReservation(@Param("tableIds") List<Long> tableIds,
-                                         @Param("requestedDate") LocalDate requestedDate,
-                                         @Param("startTime") LocalDateTime startTime,
-                                         @Param("endTime") LocalDateTime endTime);
+    boolean existsOverlappingReservation(
+            @Param("tables") List<TableEntity> tables,
+            @Param("date") LocalDate date,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
+
+
 
 
 }

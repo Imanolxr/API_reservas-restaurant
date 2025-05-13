@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface ClientServicePort {
     Client updateClient(Long id, Client updatedClient);
 
+    Client createClient(Client newClient);
 }

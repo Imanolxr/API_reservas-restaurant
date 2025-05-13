@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface ClientRepositoryPort {
 
    Optional<Client>  findById(Long clientId);
-   void saveClient(Client client);
+   Client saveClient(Client client);
+   boolean existsById(Long clientId);
 
 }
